@@ -16,8 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Accounts\SuggestNextChildCode\" />
-      <Folder Include="Accounts\SuggestNextRootCode\" />
       <Folder Include="Accounts\Update\" />
     </ItemGroup>
 

@@ -55,6 +55,7 @@ void ConfigureMediatR()
 		Assembly.GetAssembly(typeof(DeleteAccountCommand)),
 		Assembly.GetAssembly(typeof(GetAccountQuery)),
 		Assembly.GetAssembly(typeof(ListAccountsQuery)),	
+		Assembly.GetAssembly( typeof(GetAccountCodeQuery) ), 
 	};
 	builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!));
 	builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

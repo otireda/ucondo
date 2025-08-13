@@ -1,8 +1,0 @@
-namespace Ucondo.Web.Accounts;
-
-public class DeleteAccountRequest
-{
-	public const string Route = "/Accounts/{AccountCode}";
-	
-	public required string AccountCode { get; set; }
-}
