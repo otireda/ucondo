@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Ucondo.Core.Interfaces;
 using Ucondo.Core.Services;
 using Ucondo.Infrastructure.Data;
+using Ucondo.Infrastructure.Data.Queries;
 using Ucondo.Infrastructure.Data.Repositories;
+using Ucondo.UseCases.Accounts.List;
 
 namespace Ucondo.Infrastructure;
 
@@ -16,7 +18,7 @@ public static class InfrastructureServiceExtensions
 		this IServiceCollection services,
 		ConfigurationManager config)
 	{
-		string? connectionString = config.GetConnectionString("SqliteConnection");
+		var connectionString = config.GetConnectionString("SqliteConnection");
 		Guard.Against.Null(connectionString);
 		services.AddDbContext<UcondoDbContext>(options =>
 			options.UseSqlite(connectionString));
@@ -25,8 +27,7 @@ public static class InfrastructureServiceExtensions
 		services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 		services.AddScoped(typeof(IAccountRepository), typeof(AccountRepository));
 		services.AddScoped(typeof(IAccountCodeSuggester), typeof(AccountCodeSuggester));
-		// services.AddScoped<IListContributorsQueryService, ListContributorsQueryService>();
-		// services.AddScoped<IDeleteContributorService, DeleteContributorService>();
+		services.AddScoped<IListAccountsQueryService, ListAccountsQueryService>();
 
 		return services;
 	}

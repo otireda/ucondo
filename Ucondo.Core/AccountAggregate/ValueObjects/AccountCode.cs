@@ -33,7 +33,7 @@ public class AccountCode : ValueObject, IComparable<AccountCode>
 
 	protected override IEnumerable<object> GetEqualityComponents() => (IEnumerable<object>)Segments;
 
-	public static string CreateChild(AccountCode parent, int childNumber /*0..999*/)
+	public static string CreateChild(AccountCode parent, int childNumber)
 	{
 		if (childNumber is < 0 or > 999) throw new ArgumentOutOfRangeException(nameof(childNumber));
 		var newSegs = parent.Segments.Concat(new[] { childNumber });

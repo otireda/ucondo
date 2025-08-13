@@ -10,7 +10,7 @@ public class UcondoDbContext(
 	IDomainEventDispatcher? dispatcher)
 	: DbContext(options)
 {
-	public DbSet<Account> Contributors => Set<Account>();
+	public DbSet<Account> Accounts => Set<Account>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

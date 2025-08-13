@@ -9,6 +9,9 @@ using Ucondo.Core.AccountAggregate;
 using Ucondo.Infrastructure;
 using Ucondo.Infrastructure.Data;
 using Ucondo.UseCases.Accounts.Create;
+using Ucondo.UseCases.Accounts.Delete;
+using Ucondo.UseCases.Accounts.Get;
+using Ucondo.UseCases.Accounts.List;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -47,7 +50,11 @@ void ConfigureMediatR()
 	var mediatRAssemblies = new[]
 	{
 		Assembly.GetAssembly(typeof(Account)), // Core
-		Assembly.GetAssembly(typeof(CreateAccountCommand)) // UseCases
+		// UseCases
+		Assembly.GetAssembly(typeof(CreateAccountCommand)), 
+		Assembly.GetAssembly(typeof(DeleteAccountCommand)),
+		Assembly.GetAssembly(typeof(GetAccountQuery)),
+		Assembly.GetAssembly(typeof(ListAccountsQuery)),	
 	};
 	builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!));
 	builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
