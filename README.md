@@ -64,3 +64,13 @@ dotnet tool update --global dotnet-ef --version 9.0.8
 dotnet ef migrations add --project Ucondo.Infrastructure\Ucondo.Infrastructure.csproj --startup-project Ucondo.Web\Ucondo.Web.csproj --context Ucondo.Infrastructure.Data.UcondoDbContext --configuration Debug teste --output-dir Data\Migrations
 dotnet ef database update --project Ucondo.Infrastructure\Ucondo.Infrastructure.csproj --startup-project Ucondo.Web\Ucondo.Web.csproj --context Ucondo.Infrastructure.Data.UcondoDbContext --configuration Debug 20250813110558_ChangeFieldNameAccountTable
 ```
+
+---
+### Correr a aplicacao e aceder a documentacao do API Swagger
+
+Executar no terminal o comando abaixo:
+```bash
+dotnet run
+```
+
+Apos a aplicacao levantar com sucesso aceder ao endpoint: http://localhost:5219/swagger/index.html#/
