@@ -14,24 +14,20 @@ public class Create(IMediator mediator) : Endpoint<CreateAccountRequest, CreateA
 
 	public override async Task HandleAsync(CreateAccountRequest request, CancellationToken cancellationToken) {
 		var result = await mediator.Send(new CreateAccountCommand(
-			request.Code,
 			request.Name,
 			request.AllowsPostings,
 			request.Type,
-			request.ParentId), cancellationToken);
+			request.ParentCode), cancellationToken);
 
 		if (result.IsSuccess)
 		{
 			Response = new CreateAccountResponse
 			{
-				ParentId = request.ParentId,
-				Code = request.Code,
+				ParentId = request.ParentCode,
 				Name = request.Name,
 				AllowsPostings = request.AllowsPostings,
 				Type = request.Type,
 			};
-			
-			return;
 		}
 	}
 }

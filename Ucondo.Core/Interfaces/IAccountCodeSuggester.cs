@@ -4,5 +4,7 @@ namespace Ucondo.Core.Interfaces;
 
 public interface IAccountCodeSuggester
 {
-	Task<AccountCode> SuggestNextChildAsync(AccountCode parentCode, CancellationToken ct);
+	Task<string> SuggestNextChildAsync(string parentCode, CancellationToken ct);
+
+	Task<string> SuggestNextRootAsync(CancellationToken ct);
 }

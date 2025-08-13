@@ -1,13 +1,20 @@
 using Ardalis.Specification;
+using Microsoft.EntityFrameworkCore;
 using Ucondo.Core.AccountAggregate.ValueObjects;
 
 namespace Ucondo.Core.AccountAggregate.Specifications;
 
 public sealed class DirectChildrenByParentCodeSpec : Specification<Account>
 {
-	public DirectChildrenByParentCodeSpec(AccountCode parent)
+	public DirectChildrenByParentCodeSpec(string parent)
 	{
-		var depth = parent.Segments.Count + 1;
-		Query.Where(a => a.Code.StartsWith(parent) && a.Code.Segments.Count == depth);
+		var p = parent.ToString();
+		var targetDepth = p.Count(ch => ch == '.') + 2;
+
+		Query.AsNoTracking()
+			.Where(a => EF.Property<string>(a, nameof(Account.Code)).StartsWith(p + "."))
+			.Where(a => (EF.Property<string>(a, nameof(Account.Code)).Length
+				- EF.Property<string>(a, nameof(Account.Code)).Replace(".", "").Length + 1) == targetDepth)
+			.OrderBy(a => EF.Property<string>(a, nameof(Account.Code)));
 	}
 }

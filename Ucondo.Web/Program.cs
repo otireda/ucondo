@@ -6,7 +6,9 @@ using FastEndpoints.Swagger;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ucondo.Core.AccountAggregate;
+using Ucondo.Infrastructure;
 using Ucondo.Infrastructure.Data;
+using Ucondo.UseCases.Accounts.Create;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -28,15 +30,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 	app.UseDeveloperExceptionPage();
-	// app.UseShowAllServicesMiddleware(); // see https://github.com/ardalis/AspNetCoreStartupServices
+	app.UseShowAllServicesMiddleware(); 
 }
 else
 {
-	app.UseDefaultExceptionHandler(); // from FastEndpoints
+	app.UseDefaultExceptionHandler(); 
 	app.UseHsts();
 }
 
-app.UseFastEndpoints();
+app.UseFastEndpoints()
+	.UseSwaggerGen();
 app.Run();
 
 void ConfigureMediatR()
@@ -44,7 +47,7 @@ void ConfigureMediatR()
 	var mediatRAssemblies = new[]
 	{
 		Assembly.GetAssembly(typeof(Account)), // Core
-		// Assembly.GetAssembly(typeof(CreateContributorCommand)) // UseCases
+		Assembly.GetAssembly(typeof(CreateAccountCommand)) // UseCases
 	};
 	builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!));
 	builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

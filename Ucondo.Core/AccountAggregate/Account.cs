@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Principal;
 using Ardalis.SharedKernel;
 using Ucondo.Core.AccountAggregate.ValueObjects;
 using Ucondo.Core.Enums;
@@ -6,27 +8,30 @@ namespace Ucondo.Core.AccountAggregate;
 
 public class Account : EntityBase, IAggregateRoot
 {
-	public AccountCode Code { get; private set; } = default!;
-	public string Name { get; private set; } = default!;
+	public string Code { get; private set; } = null!;
+	public string Name { get; private set; } = null!;
 	public bool AllowsPostings { get; private set; }
 	public AccountType Type { get; private set; }
-	public int? ParentId { get; private set; }
+	public string? ParentCode { get; private set; }
+	public int Depth { get; set; }
 	public Account? Parent { get; private set; }
 
 	public Account() {}
 
-	public Account(AccountCode code, string name, bool allowsPostings, AccountType type, Account? parent)
+	public Account(string code, string name, bool allowsPostings, AccountType type, int depth, Account? parent)
 	{
 		Code = code;
 		Name = name;
 		AllowsPostings = allowsPostings;
 		Type = type;
 		Parent = parent;
-		ParentId = parent?.Id;
+		ParentCode = parent?.Code;
+		Depth = depth;
 	}
 
 	public static Account Create(
-		AccountCode code,
+		int depth,
+		string code,
 		string name,
 		bool allowsPostings,
 		AccountType type,
@@ -44,7 +49,7 @@ public class Account : EntityBase, IAggregateRoot
 			if (!codeMatchesParentPrefix) throw new Exception("O código da conta filha deve começar com o código da conta pai.");
 		}
 
-		return new Account(code, name, allowsPostings, type, parent);
+		return new Account(code, name, allowsPostings, type, depth, parent);
 	}
 
 	public void UpdateName(string newName) => Name = newName;

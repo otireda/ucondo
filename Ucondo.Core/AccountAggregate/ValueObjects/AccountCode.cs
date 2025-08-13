@@ -28,21 +28,24 @@ public class AccountCode : ValueObject, IComparable<AccountCode>
 	public bool StartsWith(AccountCode parent)
 	{
 		if (parent.Segments.Count >= Segments.Count) return false;
-		for (int i = 0; i < parent.Segments.Count; i++)
-			if (Segments[i] != parent.Segments[i])
-				return false;
-		return true;
+		return !parent.Segments.Where((t, i) => Segments[i] != t).Any();
 	}
 
 	protected override IEnumerable<object> GetEqualityComponents() => (IEnumerable<object>)Segments;
 
-	public static AccountCode CreateChild(AccountCode parent, int childNumber /*0..999*/)
+	public static string CreateChild(AccountCode parent, int childNumber /*0..999*/)
 	{
 		if (childNumber is < 0 or > 999) throw new ArgumentOutOfRangeException(nameof(childNumber));
 		var newSegs = parent.Segments.Concat(new[] { childNumber });
-		return new AccountCode(newSegs);
+		return new AccountCode(newSegs).ToString();
 	}
 
+	public static string CreateRoot(int number)
+	{
+		if (number is < 0 or > 999) throw new ArgumentOutOfRangeException(nameof(number));
+		return new AccountCode(new[] { number }).ToString();
+	}
+	
 	public int CompareTo(AccountCode? other)
 	{
 		if (other is null) return 1;

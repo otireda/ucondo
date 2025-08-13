@@ -8,5 +8,5 @@ public class CreateAccountResponse
 	public string? Name { get; set; }
 	public bool? AllowsPostings { get; set; }
 	public AccountType? Type { get; set; }
-	public int? ParentId { get; set; }
+	public string? ParentId { get; set; }
 }
